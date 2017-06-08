@@ -18,6 +18,9 @@ to verify the outputs
 2. empty /tmp directory. 
 3. activate the module under "Erweiterungen->Module->Ivo Bathke: JSON-LD Structured Data".
 
+## Usage
+In "Erweiterungen -> Module -> Ivo Bathke: Manufacturer Description" enter your settings in the "Settings" tab
+
 ## Requirements
 - UTF-8
 - PHP >= 5.6

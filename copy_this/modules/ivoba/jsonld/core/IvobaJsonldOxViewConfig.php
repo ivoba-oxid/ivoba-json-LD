@@ -33,22 +33,22 @@ class IvobaJsonldOxViewConfig extends IvobaJsonldOxViewConfig_parent
         $jsonLd       = [];
         $organization = [];
         $webSite      = [];
-        if ($cfg->getConfigParam('ivoba_JsonLdEnableMarketingDetails') && $this->getActionClassName() === 'start') {
+        if ($cfg->getConfigParam('ivoba_json_ld_EnableMarketingDetails') && $this->getActionClassName() === 'start') {
             $organization = array_merge($organization, $this->getMarketingDetails());
         }
-        if ($cfg->getConfigParam('ivoba_JsonLdEnableSearch') && $this->getActionClassName() === 'start') {
+        if ($cfg->getConfigParam('ivoba_json_ld_EnableSearch') && $this->getActionClassName() === 'start') {
             $webSite = array_merge($webSite, $this->getSearch());
         }
-        if ($cfg->getConfigParam('ivoba_JsonLdEnableContactDetails') && $this->getActionClassName() === 'start') {
+        if ($cfg->getConfigParam('ivoba_json_ld_EnableContactDetails') && $this->getActionClassName() === 'start') {
             $organization = array_merge($organization, $this->getContactDetails());
         }
-        if ($cfg->getConfigParam('ivoba_JsonLdEnableBreadCrumbs')) {
+        if ($cfg->getConfigParam('ivoba_json_ld_EnableBreadCrumbs')) {
             $breadCrumbs = $this->getBreadCrumbs();
             if ($breadCrumbs) {
                 $jsonLd[] = $breadCrumbs;
             }
         }
-        if ($cfg->getConfigParam('ivoba_JsonLdEnableLists') && $this->getActionClassName() === 'alist') {
+        if ($cfg->getConfigParam('ivoba_json_ld_EnableLists') && $this->getActionClassName() === 'alist') {
             $lists = $this->getLists();
             if ($lists) {
                 $jsonLd[] = $lists;
@@ -91,13 +91,13 @@ class IvobaJsonldOxViewConfig extends IvobaJsonldOxViewConfig_parent
     {
         $cfg   = oxRegistry::getConfig();
         $array = ['name' => $cfg->getActiveShop()->oxshops__oxcompany->value];
-        if ($cfg->getConfigParam('ivoba_JsonLdSocialLinks')) {
-            $array['sameAs'] = explode(',', $cfg->getConfigParam('ivoba_JsonLdSocialLinks'));
+        if ($cfg->getConfigParam('ivoba_json_ld_SocialLinks')) {
+            $array['sameAs'] = explode(',', $cfg->getConfigParam('ivoba_json_ld_SocialLinks'));
         }
 
         $array['logo'] = $this->getImageUrl($this->getShopLogo());
-        if ($cfg->getConfigParam('ivoba_JsonLdLogo')) {
-            $array['logo'] = $cfg->getConfigParam('ivoba_JsonLdLogo');
+        if ($cfg->getConfigParam('ivoba_json_ld_Logo')) {
+            $array['logo'] = $cfg->getConfigParam('ivoba_json_ld_Logo');
         }
 
         return $array;
