@@ -22,13 +22,13 @@
 */
 $aLang = [
     'charset'                                        => 'UTF-8',
-    'SHOP_MODULE_GROUP_ivoba_main'                   => 'Activated features',
-    'SHOP_MODULE_GROUP_ivoba_marketing'              => 'Marketing details',
-    'SHOP_MODULE_ivoba_JsonLdSocialLinks'            => 'Social Links (comma seperated)',
-    'SHOP_MODULE_ivoba_JsonLdLogo'                   => 'Logo-URL',
-    'SHOP_MODULE_ivoba_JsonLdEnableMarketingDetails' => 'Marketing Details',
-    'SHOP_MODULE_ivoba_JsonLdEnableSearch'           => 'SiteLinks Searchbox',
-    'SHOP_MODULE_ivoba_JsonLdEnableBreadCrumbs'      => 'BreadCrumbs',
-    'SHOP_MODULE_ivoba_JsonLdEnableLists'            => 'Listen',
-    'SHOP_MODULE_ivoba_JsonLdEnableContactDetails'   => 'Contact Details',
+    'SHOP_MODULE_GROUP_ivoba_json_ld_main'           => 'Activated features',
+    'SHOP_MODULE_GROUP_ivoba_json_ld_marketing'      => 'Marketing details',
+    'SHOP_MODULE_ivoba_json_ld_SocialLinks'            => 'Social Links (comma seperated)',
+    'SHOP_MODULE_ivoba_json_ld_Logo'                   => 'Logo-URL',
+    'SHOP_MODULE_ivoba_json_ld_EnableMarketingDetails' => 'Marketing Details',
+    'SHOP_MODULE_ivoba_json_ld_EnableSearch'           => 'SiteLinks Searchbox',
+    'SHOP_MODULE_ivoba_json_ld_EnableBreadCrumbs'      => 'BreadCrumbs',
+    'SHOP_MODULE_ivoba_json_ld_EnableLists'            => 'Listen',
+    'SHOP_MODULE_ivoba_json_ld_EnableContactDetails'   => 'Contact Details',
 ];
