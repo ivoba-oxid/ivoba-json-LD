@@ -1,0 +1,23 @@
+{
+  "name": "ivoba-oxid/jsonld",
+  "description": "JsonLD module for OXID eShop 6.",
+  "type": "oxideshop-module",
+  "keywords": ["oxid", "modules", "eShop"],
+  "homepage": "https://github.com/ivoba-oxid/ivoba-json-LD",
+  "license": [
+    "MIT"
+  ],
+  "require": {
+    "oxid-esales/oxideshop-ce": "^v6.0"
+  },
+  "extra": {
+    "oxideshop": {
+      "target-directory": "ivoba/jsonld"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "IvobaOxid\\JsonLd\\": "../../../source/modules/ivoba/jsonld"
+    }
+  }
+}

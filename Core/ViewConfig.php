@@ -22,14 +22,18 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-class IvobaJsonldOxViewConfig extends IvobaJsonldOxViewConfig_parent
+namespace IvobaOxid\JsonLd\Core;
+
+use OxidEsales\Eshop\Core\Registry;
+
+class ViewConfig extends ViewConfig_parent
 {
     /**
      * @return mixed|null|string|void
      */
     public function getJsonLd()
     {
-        $cfg          = oxRegistry::getConfig();
+        $cfg          = Registry::getConfig();
         $jsonLd       = [];
         $organization = [];
         $webSite      = [];
@@ -89,7 +93,7 @@ class IvobaJsonldOxViewConfig extends IvobaJsonldOxViewConfig_parent
      */
     protected function getMarketingDetails()
     {
-        $cfg   = oxRegistry::getConfig();
+        $cfg   = Registry::getConfig();
         $array = ['name' => $cfg->getActiveShop()->oxshops__oxcompany->value];
         if ($cfg->getConfigParam('ivoba_json_ld_SocialLinks')) {
             $array['sameAs'] = explode(',', $cfg->getConfigParam('ivoba_json_ld_SocialLinks'));
@@ -123,7 +127,7 @@ class IvobaJsonldOxViewConfig extends IvobaJsonldOxViewConfig_parent
     protected function getBreadCrumbs()
     {
         $json        = [];
-        $breadCrumbs = oxRegistry::getConfig()->getActiveView()->getBreadCrumb();
+        $breadCrumbs = Registry::getConfig()->getActiveView()->getBreadCrumb();
         if ($breadCrumbs) {
             $items = [];
             foreach ($breadCrumbs as $key => $breadCrumb) {
@@ -149,7 +153,7 @@ class IvobaJsonldOxViewConfig extends IvobaJsonldOxViewConfig_parent
      */
     protected function getContactDetails()
     {
-        $cfg = oxRegistry::getConfig();
+        $cfg = Registry::getConfig();
         $tel = $cfg->getActiveShop()->oxshops__oxtelefon->value;
         //expects format +1-401-555-1212
         if (substr($tel, 0, 2) === '00') {
@@ -171,7 +175,7 @@ class IvobaJsonldOxViewConfig extends IvobaJsonldOxViewConfig_parent
     protected function getLists()
     {
         $json = [];
-        $list = oxRegistry::getConfig()->getActiveView()->getArticleList();
+        $list = Registry::getConfig()->getActiveView()->getArticleList();
         if ($list) {
             $items = [];
             $i     = 1;
@@ -187,7 +191,7 @@ class IvobaJsonldOxViewConfig extends IvobaJsonldOxViewConfig_parent
                 '@context'        => 'http://schema.org',
                 '@type'           => 'ItemList',
                 'itemListElement' => $items,
-                'numberOfItems'   => (int)oxRegistry::getConfig()->getActiveView()->getArticleCount(),
+                'numberOfItems'   => (int)Registry::getConfig()->getActiveView()->getArticleCount(),
                 //todo itemListOrder
             ];
         }

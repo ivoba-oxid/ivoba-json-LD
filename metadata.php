@@ -21,7 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-$sMetadataVersion = '1.1';
+$sMetadataVersion = '2';
 $aModule          = [
     'id'          => 'ivoba_jsonld',
     'title'       => '<strong>Ivo Bathke</strong>:  <i>JSON-LD Structured Data</i>',
@@ -33,7 +33,7 @@ $aModule          = [
     'author'      => 'Ivo Bathke',
     'email'       => 'ivo.bathke@gmail.com',
     'url'         => 'https://oxid.ivo-bathke.name#json-ld',
-    'extend'      => ['oxviewconfig' => 'ivoba/jsonld/core/IvobaJsonldOxViewConfig'],
+    'extend'      => [\OxidEsales\Eshop\Core\ViewConfig::class => \IvobaOxid\JsonLd\Core\ViewConfig::class],
     'blocks'      => [
         array(
             'template' => 'layout/base.tpl',
@@ -42,10 +42,25 @@ $aModule          = [
         ),
     ],
     'settings'    => [
-        ['group' => 'ivoba_json_ld_main', 'name' => 'ivoba_json_ld_EnableMarketingDetails', 'type' => 'bool', 'value' => true],
+        [
+            'group' => 'ivoba_json_ld_main',
+            'name'  => 'ivoba_json_ld_EnableMarketingDetails',
+            'type'  => 'bool',
+            'value' => true,
+        ],
         ['group' => 'ivoba_json_ld_main', 'name' => 'ivoba_json_ld_EnableSearch', 'type' => 'bool', 'value' => true],
-        ['group' => 'ivoba_json_ld_main', 'name' => 'ivoba_json_ld_EnableBreadCrumbs', 'type' => 'bool', 'value' => true],
-        ['group' => 'ivoba_json_ld_main', 'name' => 'ivoba_json_ld_EnableContactDetails', 'type' => 'bool', 'value' => true],
+        [
+            'group' => 'ivoba_json_ld_main',
+            'name'  => 'ivoba_json_ld_EnableBreadCrumbs',
+            'type'  => 'bool',
+            'value' => true,
+        ],
+        [
+            'group' => 'ivoba_json_ld_main',
+            'name'  => 'ivoba_json_ld_EnableContactDetails',
+            'type'  => 'bool',
+            'value' => true,
+        ],
         ['group' => 'ivoba_json_ld_main', 'name' => 'ivoba_json_ld_EnableLists', 'type' => 'bool', 'value' => true],
         ['group' => 'ivoba_json_ld_marketing', 'name' => 'ivoba_json_ld_SocialLinks', 'type' => 'str', 'value' => ''],
         ['group' => 'ivoba_json_ld_marketing', 'name' => 'ivoba_json_ld_Logo', 'type' => 'str', 'value' => ''],

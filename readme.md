@@ -1,4 +1,4 @@
-# JSON-LD Structured Data module for Oxid eShop
+# JSON-LD Structured Data module for Oxid eShop v6
 
 Add JSON-LD data of your shop to your website.
 https://developers.google.com/search/docs/guides/intro-structured-data
@@ -14,9 +14,10 @@ Use https://search.google.com/structured-data/testing-tool
 to verify the outputs
 
 ## Installation
-1. Copy contents of "copy_this" into your shop root directory. 
-2. empty /tmp directory. 
-3. activate the module under "Erweiterungen->Module->Ivo Bathke: JSON-LD Structured Data".
+
+    composer require ivoba-oxid/jsonld
+    
+If you have OXID eshop < 6 use v1, check v1 branch of this module.
 
 ## Usage
 In "Erweiterungen -> Module -> Ivo Bathke: Manufacturer Description" enter your settings in the "Settings" tab
@@ -24,7 +25,7 @@ In "Erweiterungen -> Module -> Ivo Bathke: Manufacturer Description" enter your 
 ## Requirements
 - UTF-8
 - PHP >= 5.6
-- Oxid eShop >= CE 4.9.0
+- Oxid eShop >= CE 6
 
 ## Todo
 - add fields for shopName, Organization name to override Stammdaten
