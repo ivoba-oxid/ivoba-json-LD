@@ -29,7 +29,7 @@ $aModule          = [
 <a href="https://developers.google.com/search/docs/guides/intro-structured-data
 " target="_blank""">https://developers.google.com/search/docs/guides/intro-structured-data</a>',
     'thumbnail'   => 'ivoba-oxid.png',
-    'version'     => '1.0',
+    'version'     => '2.0',
     'author'      => 'Ivo Bathke',
     'email'       => 'ivo.bathke@gmail.com',
     'url'         => 'https://oxid.ivo-bathke.name#json-ld',
@@ -58,6 +58,12 @@ $aModule          = [
         [
             'group' => 'ivoba_json_ld_main',
             'name'  => 'ivoba_json_ld_EnableContactDetails',
+            'type'  => 'bool',
+            'value' => true,
+        ],
+        [
+            'group' => 'ivoba_json_ld_main',
+            'name'  => 'ivoba_json_ld_EnableProduct',
             'type'  => 'bool',
             'value' => true,
         ],

@@ -57,6 +57,18 @@ class ViewConfig extends ViewConfig_parent
             if ($lists) {
                 $jsonLd[] = $lists;
             }
+            //todo add product to list
+        }
+        /*
+        * todo
+        * search
+        * tag
+        */
+        if ($cfg->getConfigParam('ivoba_json_ld_EnableProduct') && $this->getActionClassName() === 'details') {
+            $product = $this->getProduct();
+            if ($product) {
+                $jsonLd[] = $product;
+            }
         }
 
         if ($organization) {
@@ -194,6 +206,123 @@ class ViewConfig extends ViewConfig_parent
                 'numberOfItems'   => (int)Registry::getConfig()->getActiveView()->getArticleCount(),
                 //todo itemListOrder
             ];
+        }
+
+        return $json;
+    }
+
+    protected function getProduct()
+    {
+        $json    = [];
+        $product = Registry::getConfig()->getActiveView()->getProduct();
+        if ($product) {
+            if ($product->oxarticles__oxrating->value > 0 && $product->oxarticles__oxratingcnt->value > 0) {
+                $json['aggregateRating'] = [
+                    '@type'       => 'AggregateRating',
+                    'ratingValue' => $product->oxarticles__oxrating->value,
+                    'reviewCount' => $product->oxarticles__oxratingcnt->value,
+                ];
+            }
+
+            $json = $this->makeProduct($product, $json);
+
+            if ($product->getVariantsCount() < 1) {
+                $offer = $this->makeOffer($product);
+            } else {
+                $offer              = [
+                    '@type'      => 'AggregateOffer',
+                    'offerCount' => $product->getVariantsCount(),
+                ];
+                $offer['lowPrice']  = number_format($product->oxarticles__oxvarminprice->value, 2, '.', '');
+                $offer['highPrice'] = number_format($product->oxarticles__oxvarmaxprice->value, 2, '.', '');
+                $offer['offers']    = [];
+                //todo make $blRemoveNotOrderables configurable, adjust also getVariantsCount
+                foreach ($product->getVariants(false) as $simpleVariant) {
+                    $variantOffer                = $this->makeOffer($simpleVariant);
+                    $variantOffer['itemOffered'] = $this->makeProduct($simpleVariant, []);
+                    $offer['offers'][]           = $variantOffer;
+                }
+            }
+
+            $json['offers'] = $offer;
+        }
+
+        if ($json) {
+            $json = array_merge([
+                '@context' => 'http://schema.org',
+                '@type'    => 'Product',
+            ], $json);
+        }
+
+        return $json;
+    }
+
+    /**
+     * @param $product
+     * @return array
+     */
+    protected function makeOffer($product): array
+    {
+        $offer                 = [
+            '@type' => 'Offer',
+        ];
+        $offer['availability'] = 'http://schema.org/OutStock';
+        if ($product->isBuyable()) {
+            $offer['availability'] = 'http://schema.org/InStock';
+        }
+        $offer['itemCondition'] = 'http://schema.org/NewCondition';
+        $offer['price']         = number_format($product->oxarticles__oxprice->value, 2, '.', '');
+        $offer['priceCurrency'] = $this->getConfig()->getActShopCurrencyObject()->name;
+
+        return $offer;
+    }
+
+    /**
+     * @param $product
+     * @param $json
+     * @return mixed
+     */
+    protected function makeProduct($product, $json)
+    {
+        if ($product->oxarticles__oxshortdesc->value) {
+            $json['description'] = $product->oxarticles__oxshortdesc->value;
+        }
+        if ($product->oxarticles__oxartnum->value) {
+            $json['sku'] = $product->oxarticles__oxartnum->value;
+        }
+        if ($product->oxarticles__oxean->value) {
+            $json['gtin13'] = $product->oxarticles__oxean->value;
+        }
+        if ($product->oxarticles__oxmpn->value) {
+            $json['mpn'] = $product->oxarticles__oxmpn->value;
+        }
+        if ($product->oxarticles__oxweight->value) {
+            $json['weight'] = (float)number_format($product->oxarticles__oxweight->value, 3, '.', '');
+        }
+        if ($product->oxarticles__oxheight->value) {
+            $json['height'] = (float)number_format($product->oxarticles__oxheight->value, 3, '.', '');
+        }
+        if ($product->oxarticles__oxwidth->value) {
+            $json['width'] = (float)number_format($product->oxarticles__oxwidth->value, 3, '.', '');
+        }
+        if ($product->oxarticles__oxartlength->value) {
+            $json['depth'] = (float)number_format($product->oxarticles__oxlength->value, 3, '.', '');
+        }
+        $name = $product->oxarticles__oxvarselect->value ? $product->oxarticles__oxtitle->value.' '.$product->oxarticles__oxvarselect->value : $product->oxarticles__oxtitle->value;
+        if ($name) {
+            $json['name'] = $name;
+        }
+        if ($product->oxmanufacturers__oxtitle->value) {
+            $json['brand'] = $product->oxmanufacturers__oxtitle->value;
+        }
+        if ($product->oxcategories__oxtitle->value) {
+            $json['category'] = $product->oxcategories__oxtitle->value;
+        }
+        if ($product->getPictureUrl()) {
+            $json['image'] = $product->getPictureUrl();
+        }
+        if ($product->getLink()) {
+            $json['url'] = $product->getLink();
         }
 
         return $json;
