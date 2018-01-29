@@ -25,6 +25,7 @@
 namespace IvobaOxid\JsonLd\Core;
 
 use OxidEsales\Eshop\Core\Registry;
+use IvobaOxid\JsonLd\Core\JsonProductFactory;
 
 class ViewConfig extends ViewConfig_parent
 {
@@ -37,6 +38,7 @@ class ViewConfig extends ViewConfig_parent
         $jsonLd       = [];
         $organization = [];
         $webSite      = [];
+
         if ($cfg->getConfigParam('ivoba_json_ld_EnableMarketingDetails') && $this->getActionClassName() === 'start') {
             $organization = array_merge($organization, $this->getMarketingDetails());
         }
@@ -52,18 +54,15 @@ class ViewConfig extends ViewConfig_parent
                 $jsonLd[] = $breadCrumbs;
             }
         }
-        if ($cfg->getConfigParam('ivoba_json_ld_EnableLists') && $this->getActionClassName() === 'alist') {
+
+        if ($cfg->getConfigParam('ivoba_json_ld_EnableLists') &&
+            ($this->getActionClassName() === 'alist' || $this->getActionClassName() === 'search' )) {
             $lists = $this->getLists();
             if ($lists) {
                 $jsonLd[] = $lists;
             }
-            //todo add product to list
         }
-        /*
-        * todo
-        * search
-        * tag
-        */
+
         if ($cfg->getConfigParam('ivoba_json_ld_EnableProduct') && $this->getActionClassName() === 'details') {
             $product = $this->getProduct();
             if ($product) {
@@ -192,12 +191,18 @@ class ViewConfig extends ViewConfig_parent
             $items = [];
             $i     = 1;
             foreach ($list as $item) {
-                $items[] = [
-                    '@type'    => 'ListItem',
-                    'url'      => $item->getLink(),
-                    'position' => $i, // offset by pagination ?
-                ];
-                $i++;
+                $jsonProductFactory = new JsonProductFactory(
+                    $item,
+                    $this->getConfig()->getActShopCurrencyObject()->name
+                );
+                $jsonProduct        = $jsonProductFactory->getProduct();
+                if ($jsonProduct) {
+                    $items[] = array_merge([
+                        '@type'    => 'ListItem',
+                        'position' => $i, // offset by pagination ?
+                    ], $jsonProduct);
+                    $i++;
+                }
             }
             $json = [
                 '@context'        => 'http://schema.org',
@@ -211,47 +216,23 @@ class ViewConfig extends ViewConfig_parent
         return $json;
     }
 
-    protected function getProduct()
+    protected function getProduct(): array
     {
         $json    = [];
         $product = Registry::getConfig()->getActiveView()->getProduct();
         if ($product) {
-            if ($product->oxarticles__oxrating->value > 0 && $product->oxarticles__oxratingcnt->value > 0) {
-                $json['aggregateRating'] = [
-                    '@type'       => 'AggregateRating',
-                    'ratingValue' => $product->oxarticles__oxrating->value,
-                    'reviewCount' => $product->oxarticles__oxratingcnt->value,
-                ];
+            $jsonProductFactory = new JsonProductFactory(
+                $product,
+                $this->getConfig()->getActShopCurrencyObject()->name
+            );
+
+            $jsonProduct = $jsonProductFactory->getProduct();
+            if ($jsonProduct) {
+                $json[] = array_merge([
+                    '@context' => 'http://schema.org',
+                    '@type'    => 'Product',
+                ], $jsonProduct);
             }
-
-            $json = $this->makeProduct($product, $json);
-
-            if ($product->getVariantsCount() < 1) {
-                $offer = $this->makeOffer($product);
-            } else {
-                $offer              = [
-                    '@type'      => 'AggregateOffer',
-                    'offerCount' => $product->getVariantsCount(),
-                ];
-                $offer['lowPrice']  = number_format($product->oxarticles__oxvarminprice->value, 2, '.', '');
-                $offer['highPrice'] = number_format($product->oxarticles__oxvarmaxprice->value, 2, '.', '');
-                $offer['offers']    = [];
-                //todo make $blRemoveNotOrderables configurable, adjust also getVariantsCount
-                foreach ($product->getVariants(false) as $simpleVariant) {
-                    $variantOffer                = $this->makeOffer($simpleVariant);
-                    $variantOffer['itemOffered'] = $this->makeProduct($simpleVariant, []);
-                    $offer['offers'][]           = $variantOffer;
-                }
-            }
-
-            $json['offers'] = $offer;
-        }
-
-        if ($json) {
-            $json = array_merge([
-                '@context' => 'http://schema.org',
-                '@type'    => 'Product',
-            ], $json);
         }
 
         return $json;
