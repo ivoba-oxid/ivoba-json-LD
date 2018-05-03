@@ -228,7 +228,7 @@ class ViewConfig extends ViewConfig_parent
 
             $jsonProduct = $jsonProductFactory->getProduct();
             if ($jsonProduct) {
-                $json[] = array_merge([
+                $json = array_merge([
                     '@context' => 'http://schema.org',
                     '@type'    => 'Product',
                 ], $jsonProduct);
