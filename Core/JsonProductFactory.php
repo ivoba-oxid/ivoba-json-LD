@@ -8,11 +8,15 @@ class JsonProductFactory
 {
     private $currency;
     private $product;
+    private $worstRating;
+    private $bestRating;
 
-    public function __construct(Article $product, string $currency)
+    public function __construct(Article $product, string $currency, $worstRating = 1, $bestRating = 5)
     {
-        $this->currency = $currency;
-        $this->product  = $this->create($product);
+        $this->currency    = $currency;
+        $this->worstRating = $worstRating;
+        $this->bestRating  = $bestRating;
+        $this->product     = $this->create($product);
     }
 
     public function getProduct(): array
@@ -27,6 +31,8 @@ class JsonProductFactory
         if ($product->oxarticles__oxrating->value > 0 && $product->oxarticles__oxratingcnt->value > 0) {
             $json['aggregateRating'] = [
                 '@type'       => 'AggregateRating',
+                'worstRating' => $this->worstRating,
+                'bestRating'  => $this->bestRating,
                 'ratingValue' => $product->oxarticles__oxrating->value,
                 'reviewCount' => $product->oxarticles__oxratingcnt->value,
             ];

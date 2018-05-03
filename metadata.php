@@ -35,11 +35,11 @@ $aModule          = [
     'url'         => 'https://oxid.ivo-bathke.name#json-ld',
     'extend'      => [\OxidEsales\Eshop\Core\ViewConfig::class => \IvobaOxid\JsonLd\Core\ViewConfig::class],
     'blocks'      => [
-        array(
+        [
             'template' => 'layout/base.tpl',
             'block'    => 'head_css', // we add it right after the css
             'file'     => '/views/blocks/jsonld_structured_data.tpl',
-        ),
+        ],
     ],
     'settings'    => [
         [

@@ -16,21 +16,25 @@ to verify the outputs
 ## Installation
 
     composer require ivoba-oxid/jsonld
-    
+
 If you have OXID eshop < 6 use v1, check v1 branch of this module.
 
 ## Usage
-In "Erweiterungen -> Module -> Ivo Bathke: Manufacturer Description" enter your settings in the "Settings" tab
+In "Erweiterungen -> Module -> Ivo Bathke: JsonLD" enter your settings in the "Settings" tab
+
+### Note
+  - using RDFa with JsonLD is in most cases double and not needed
+  - Flow theme has schema.org data baked in, which should be removed in custom theme,
+    to not have unneeded markup.
 
 ## Requirements
 - UTF-8
-- PHP >= 5.6
+- PHP >= 7
 - Oxid eShop >= CE 6
 
 ## Todo
 - add fields for shopName, Organization name to override Stammdaten
 - add option for beautify json
-- customize RDFa output to not have double elments like image, name when using json-ld with RDFa
 
 ## License MIT
 
