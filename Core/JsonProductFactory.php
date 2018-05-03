@@ -49,12 +49,13 @@ class JsonProductFactory
             ];
             $offer['lowPrice']  = number_format($product->oxarticles__oxvarminprice->value, 2, '.', '');
             $offer['highPrice'] = number_format($product->oxarticles__oxvarmaxprice->value, 2, '.', '');
+            $offer['priceCurrency'] = $this->currency;
             $offer['offers']    = [];
             //todo make $blRemoveNotOrderables configurable, adjust also getVariantsCount
             //todo make showVariants configurable
             foreach ($product->getFullVariants($blRemoveNotOrderables = true) as $variant) {
                 $variantOffer                = $this->makeOffer($variant);
-                $variantOffer['itemOffered'] = $this->makeProduct($variant, []);
+                $variantOffer['itemOffered'] = $this->makeProduct($variant, ['@type' => 'Product']);
                 $offer['offers'][]           = $variantOffer;
             }
         }
