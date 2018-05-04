@@ -182,6 +182,7 @@ class ViewConfig extends ViewConfig_parent
 
     /**
      * @return array
+     * @throws \oxSystemComponentException
      */
     protected function getLists()
     {
@@ -196,6 +197,13 @@ class ViewConfig extends ViewConfig_parent
                     $this->getConfig()->getActShopCurrencyObject()->name
                 );
                 $jsonProduct        = $jsonProductFactory->getProduct();
+                // clear elements that are not supported by ListItem
+                unset($jsonProduct['sku']);
+                unset($jsonProduct['gtin']);
+                unset($jsonProduct['gtin13']);
+                unset($jsonProduct['aggregateRating']);
+                unset($jsonProduct['offers']);
+                unset($jsonProduct['weight']);
                 if ($jsonProduct) {
                     $items[] = array_merge([
                         '@type'    => 'ListItem',
