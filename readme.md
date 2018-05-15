@@ -9,6 +9,8 @@ Add these information to your page:
 - Sitelinks searchbox
 - Breadcrumbs
 - Contact details
+- Product details
+- Lists
 
 Use https://search.google.com/structured-data/testing-tool
 to verify the outputs

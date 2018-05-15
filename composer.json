@@ -13,6 +13,9 @@
   "extra": {
     "oxideshop": {
       "target-directory": "ivoba/jsonld"
+    },
+    "branch-alias": {
+        "dev-master": "2.0.x-dev"
     }
   },
   "autoload": {
