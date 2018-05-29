@@ -30,5 +30,6 @@ $aLang = [
     'SHOP_MODULE_ivoba_json_ld_EnableSearch'           => 'SiteLinks Searchbox',
     'SHOP_MODULE_ivoba_json_ld_EnableBreadCrumbs'      => 'BreadCrumbs',
     'SHOP_MODULE_ivoba_json_ld_EnableLists'            => 'Lists',
-    'SHOP_MODULE_ivoba_json_ld_EnableContactDetails'   => 'Contact Details',
+    'SHOP_MODULE_ivoba_json_ld_EnableContactDetails'   => 'Kontakt Details',
+    'SHOP_MODULE_ivoba_json_ld_EnableProduct'          => 'Produkt Details'
 ];
