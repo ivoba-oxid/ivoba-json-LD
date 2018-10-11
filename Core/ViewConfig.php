@@ -144,9 +144,11 @@ class ViewConfig extends ViewConfig_parent
             foreach ($breadCrumbs as $key => $breadCrumb) {
                 $items[] = [
                     '@type'    => 'ListItem',
-                    '@id'      => $breadCrumb['link'],
                     'position' => $key + 1,
-                    'name'     => $breadCrumb['title'],
+                    'item' => [
+                        '@id'      => $breadCrumb['link'],
+                        'name'     => $breadCrumb['title'],
+                    ]
                 ];
             }
             $json = [
