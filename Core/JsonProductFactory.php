@@ -84,6 +84,7 @@ class JsonProductFactory
         $offer['itemCondition'] = 'http://schema.org/NewCondition';
         $offer['price']         = number_format($product->oxarticles__oxprice->value, 2, '.', '');
         $offer['priceCurrency'] = $this->currency;
+        $offer['url'] = $product->getLink();
 
         return $offer;
     }
