@@ -77,7 +77,7 @@ class JsonProductFactory
         $offer                 = [
             '@type' => 'Offer',
         ];
-        $offer['availability'] = 'http://schema.org/OutStock';
+        $offer['availability'] = 'http://schema.org/OutOfStock';
         if ($product->isBuyable()) {
             $offer['availability'] = 'http://schema.org/InStock';
         }
