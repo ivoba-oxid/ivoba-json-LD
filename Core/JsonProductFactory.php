@@ -16,7 +16,7 @@ class JsonProductFactory
     public function __construct(
         Article $product,
         string $currency,
-        ListModel $reviews,
+        ListModel $reviews = null,
         $worstRating = 1,
         $bestRating = 5
     ) {
@@ -32,7 +32,7 @@ class JsonProductFactory
         return $this->product;
     }
 
-    protected function create(Article $product, ListModel $reviews)
+    protected function create(Article $product, ListModel $reviews = null)
     {
         $json = [];
 
@@ -47,7 +47,9 @@ class JsonProductFactory
         }
 
         $json = $this->makeProduct($product, $json);
-        $json = $this->makeReviews($product, $reviews, $json);
+        if ($reviews) {
+            $json = $this->makeReviews($product, $reviews, $json);
+        }
 
         if ($product->getVariantsCount() < 1) {
             $offer = $this->makeOffer($product);
