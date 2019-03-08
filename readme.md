@@ -35,8 +35,10 @@ In "Erweiterungen -> Module -> Ivo Bathke: JsonLD" enter your settings in the "S
 - Oxid eShop >= CE 6
 
 ## Todo
+- add Tests
 - add fields for shopName, Organization name to override Stammdaten
 - add option for beautify json
+- make controller to render only jsonLD to include in script tag
 
 ## License MIT
 

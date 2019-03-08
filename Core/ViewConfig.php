@@ -230,17 +230,19 @@ class ViewConfig extends ViewConfig_parent
     {
         $json    = [];
         $product = Registry::getConfig()->getActiveView()->getProduct();
+        $reviews = Registry::getConfig()->getActiveView()->getReviews();
         if ($product) {
             $jsonProductFactory = new JsonProductFactory(
                 $product,
-                $this->getConfig()->getActShopCurrencyObject()->name
+                $this->getConfig()->getActShopCurrencyObject()->name,
+                $reviews
             );
 
             $jsonProduct = $jsonProductFactory->getProduct();
             if ($jsonProduct) {
                 $json = array_merge([
                     '@context' => 'http://schema.org',
-                    '@type'    => 'Product',
+                    '@type'    => 'Product'
                 ], $jsonProduct);
             }
         }

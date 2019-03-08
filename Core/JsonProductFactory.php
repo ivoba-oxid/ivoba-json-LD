@@ -3,20 +3,28 @@
 namespace IvobaOxid\JsonLd\Core;
 
 use OxidEsales\Eshop\Application\Model\Article;
+use OxidEsales\Eshop\Core\Model\ListModel;
 
 class JsonProductFactory
 {
     private $currency;
     private $product;
+    private $reviews;
     private $worstRating;
     private $bestRating;
 
-    public function __construct(Article $product, string $currency, $worstRating = 1, $bestRating = 5)
-    {
+    public function __construct(
+        Article $product,
+        string $currency,
+        ListModel $reviews,
+        $worstRating = 1,
+        $bestRating = 5
+    ) {
         $this->currency    = $currency;
+        $this->reviews     = $reviews;
         $this->worstRating = $worstRating;
         $this->bestRating  = $bestRating;
-        $this->product     = $this->create($product);
+        $this->product     = $this->create($product, $reviews);
     }
 
     public function getProduct(): array
@@ -24,7 +32,7 @@ class JsonProductFactory
         return $this->product;
     }
 
-    protected function create(Article $product)
+    protected function create(Article $product, ListModel $reviews)
     {
         $json = [];
 
@@ -39,18 +47,19 @@ class JsonProductFactory
         }
 
         $json = $this->makeProduct($product, $json);
+        $json = $this->makeReviews($product, $reviews, $json);
 
         if ($product->getVariantsCount() < 1) {
             $offer = $this->makeOffer($product);
         } else {
-            $offer              = [
+            $offer                  = [
                 '@type'      => 'AggregateOffer',
                 'offerCount' => $product->getVariantsCount(),
             ];
-            $offer['lowPrice']  = number_format($product->oxarticles__oxvarminprice->value, 2, '.', '');
-            $offer['highPrice'] = number_format($product->oxarticles__oxvarmaxprice->value, 2, '.', '');
+            $offer['lowPrice']      = number_format($product->oxarticles__oxvarminprice->value, 2, '.', '');
+            $offer['highPrice']     = number_format($product->oxarticles__oxvarmaxprice->value, 2, '.', '');
             $offer['priceCurrency'] = $this->currency;
-            $offer['offers']    = [];
+            $offer['offers']        = [];
             //todo make $blRemoveNotOrderables configurable, adjust also getVariantsCount
             //todo make showVariants configurable
             foreach ($product->getFullVariants($blRemoveNotOrderables = true) as $variant) {
@@ -84,7 +93,7 @@ class JsonProductFactory
         $offer['itemCondition'] = 'http://schema.org/NewCondition';
         $offer['price']         = number_format($product->oxarticles__oxprice->value, 2, '.', '');
         $offer['priceCurrency'] = $this->currency;
-        $offer['url'] = $product->getLink();
+        $offer['url']           = $product->getLink();
 
         return $offer;
     }
@@ -130,6 +139,37 @@ class JsonProductFactory
         }
         if ($product->getLink()) {
             $json['url'] = $product->getLink();
+        }
+
+
+        return $json;
+    }
+
+    protected function makeReviews(Article $product, ListModel $reviews, array $json): array
+    {
+        if ($reviews->count() > 0) {
+            $json['review'] = [];
+            $i              = 1;
+            foreach ($reviews as $review) {
+                $date             = \DateTime::createFromFormat('d.m.Y H:i:s',
+                    $review->oxreviews__oxcreate->value); //todo format from shop settings
+                $json['review'][] = [
+                    '@type'         => 'Review',
+                    '@id'           => 'reviewName_'.$i,
+                    'name'          => $review->oxreviews__oxtext->value,
+                    'description'   => $review->oxreviews__oxtext->value,
+                    'author'        => ($review->oxuser__oxfname->value ?: 'Anonym'),
+                    'datePublished' => $date->format('Y-m-d'),
+                    'itemReviewed'  => trim($product->oxarticles__oxtitle->value.' '.$product->oxarticles__oxvarselect->value),
+                    'reviewRating'  => [
+                        '@type'       => 'Rating',
+                        'worstRating' => $this->worstRating,
+                        'bestRating'  => $this->bestRating,
+                        'ratingValue' => $review->oxreviews__oxrating->value ?: 0,
+                    ],
+                ];
+                $i++;
+            }
         }
 
         return $json;
