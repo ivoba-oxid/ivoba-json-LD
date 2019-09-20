@@ -231,6 +231,9 @@ class ViewConfig extends ViewConfig_parent
         $json    = [];
         $product = Registry::getConfig()->getActiveView()->getProduct();
         $reviews = Registry::getConfig()->getActiveView()->getReviews();
+        if ($reviews === false) {
+            $reviews = null; // OXID returns false instead of null in vendor/oxid-esales/oxideshop-ce/source/Application/Component/Widget/ArticleDetails.php:585
+        }
         if ($product) {
             $jsonProductFactory = new JsonProductFactory(
                 $product,
