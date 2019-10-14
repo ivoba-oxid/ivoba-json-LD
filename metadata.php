@@ -70,5 +70,8 @@ $aModule          = [
         ['group' => 'ivoba_json_ld_main', 'name' => 'ivoba_json_ld_EnableLists', 'type' => 'bool', 'value' => true],
         ['group' => 'ivoba_json_ld_marketing', 'name' => 'ivoba_json_ld_SocialLinks', 'type' => 'str', 'value' => ''],
         ['group' => 'ivoba_json_ld_marketing', 'name' => 'ivoba_json_ld_Logo', 'type' => 'str', 'value' => ''],
+        ['group' => 'ivoba_json_ld_rating', 'name' => 'ivoba_json_ld_RatingAuthorName', 'type' => 'str', 'value' => ''],
+        ['group' => 'ivoba_json_ld_rating', 'name' => 'ivoba_json_ld_RatingAuthorLogo', 'type' => 'str', 'value' => ''],
+        ['group' => 'ivoba_json_ld_rating', 'name' => 'ivoba_json_ld_RatingAuthorImage', 'type' => 'str', 'value' => ''],
     ],
 ];

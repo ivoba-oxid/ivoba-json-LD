@@ -56,7 +56,7 @@ class ViewConfig extends ViewConfig_parent
         }
 
         if ($cfg->getConfigParam('ivoba_json_ld_EnableLists') &&
-            ($this->getActionClassName() === 'alist' || $this->getActionClassName() === 'search' )) {
+            ($this->getActionClassName() === 'alist' || $this->getActionClassName() === 'search')) {
             $lists = $this->getLists();
             if ($lists) {
                 $jsonLd[] = $lists;
@@ -64,7 +64,17 @@ class ViewConfig extends ViewConfig_parent
         }
 
         if ($cfg->getConfigParam('ivoba_json_ld_EnableProduct') && $this->getActionClassName() === 'details') {
-            $product = $this->getProduct();
+            $ratingAuthor = [];
+            if ($cfg->getConfigParam('ivoba_json_ld_RatingAuthorName')) {
+                $ratingAuthor['name'] = $cfg->getConfigParam('ivoba_json_ld_RatingAuthorName');
+            }
+            if ($cfg->getConfigParam('ivoba_json_ld_RatingAuthorLogo')) {
+                $ratingAuthor['logo'] = $cfg->getConfigParam('ivoba_json_ld_RatingAuthorLogo');
+            }
+            if ($cfg->getConfigParam('ivoba_json_ld_RatingAuthorImage')) {
+                $ratingAuthor['image'] = $cfg->getConfigParam('ivoba_json_ld_RatingAuthorImage');
+            }
+            $product = $this->getProduct($ratingAuthor);
             if ($product) {
                 $jsonLd[] = $product;
             }
@@ -145,10 +155,10 @@ class ViewConfig extends ViewConfig_parent
                 $items[] = [
                     '@type'    => 'ListItem',
                     'position' => $key + 1,
-                    'item' => [
-                        '@id'      => $breadCrumb['link'],
-                        'name'     => $breadCrumb['title'],
-                    ]
+                    'item'     => [
+                        '@id'  => $breadCrumb['link'],
+                        'name' => $breadCrumb['title'],
+                    ],
                 ];
             }
             $json = [
@@ -226,7 +236,7 @@ class ViewConfig extends ViewConfig_parent
         return $json;
     }
 
-    protected function getProduct(): array
+    protected function getProduct($ratingAuthor = []): array
     {
         $json    = [];
         $product = Registry::getConfig()->getActiveView()->getProduct();
@@ -238,7 +248,10 @@ class ViewConfig extends ViewConfig_parent
             $jsonProductFactory = new JsonProductFactory(
                 $product,
                 $this->getConfig()->getActShopCurrencyObject()->name,
-                $reviews
+                $reviews,
+                $worstRating = 1, //todo configurable
+                $bestRating = 5, //todo configurable
+                $ratingAuthor
             );
 
             $jsonProduct = $jsonProductFactory->getProduct();

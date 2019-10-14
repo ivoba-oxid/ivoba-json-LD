@@ -12,19 +12,22 @@ class JsonProductFactory
     private $reviews;
     private $worstRating;
     private $bestRating;
+    private $ratingAuthor;
 
     public function __construct(
         Article $product,
         string $currency,
         ListModel $reviews = null,
         $worstRating = 1,
-        $bestRating = 5
+        $bestRating = 5,
+        $ratingAuthor = []
     ) {
-        $this->currency    = $currency;
-        $this->reviews     = $reviews;
-        $this->worstRating = $worstRating;
-        $this->bestRating  = $bestRating;
-        $this->product     = $this->create($product, $reviews);
+        $this->currency     = $currency;
+        $this->reviews      = $reviews;
+        $this->worstRating  = $worstRating;
+        $this->bestRating   = $bestRating;
+        $this->ratingAuthor = $ratingAuthor;
+        $this->product      = $this->create($product, $reviews);
     }
 
     public function getProduct(): array
@@ -44,6 +47,14 @@ class JsonProductFactory
                 'ratingValue' => $product->oxarticles__oxrating->value,
                 'reviewCount' => $product->oxarticles__oxratingcnt->value,
             ];
+            if ($this->ratingAuthor) {
+                $json['aggregateRating']['author'] = [
+                    '@type' => 'Organization',
+                    'name'  => $this->ratingAuthor['name'],
+                    'logo'  => $this->ratingAuthor['logo'],
+                    'image' => $this->ratingAuthor['image'],
+                ];
+            }
         }
 
         $json = $this->makeProduct($product, $json);
@@ -176,5 +187,4 @@ class JsonProductFactory
 
         return $json;
     }
-
 }

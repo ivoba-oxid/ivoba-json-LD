@@ -21,9 +21,10 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 $aLang = [
-    'charset'                                        => 'UTF-8',
-    'SHOP_MODULE_GROUP_ivoba_json_ld_main'           => 'Activated features',
-    'SHOP_MODULE_GROUP_ivoba_json_ld_marketing'      => 'Marketing details',
+    'charset'                                          => 'UTF-8',
+    'SHOP_MODULE_GROUP_ivoba_json_ld_main'             => 'Activated features',
+    'SHOP_MODULE_GROUP_ivoba_json_ld_marketing'        => 'Marketing details',
+    'SHOP_MODULE_GROUP_ivoba_json_ld_rating'           => 'Rating details',
     'SHOP_MODULE_ivoba_json_ld_SocialLinks'            => 'Social Links (comma seperated)',
     'SHOP_MODULE_ivoba_json_ld_Logo'                   => 'Logo-URL',
     'SHOP_MODULE_ivoba_json_ld_EnableMarketingDetails' => 'Marketing Details',
@@ -31,5 +32,8 @@ $aLang = [
     'SHOP_MODULE_ivoba_json_ld_EnableBreadCrumbs'      => 'BreadCrumbs',
     'SHOP_MODULE_ivoba_json_ld_EnableLists'            => 'Listen',
     'SHOP_MODULE_ivoba_json_ld_EnableContactDetails'   => 'Contact Details',
-    'SHOP_MODULE_ivoba_json_ld_EnableProduct'          => 'Product Details'
+    'SHOP_MODULE_ivoba_json_ld_EnableProduct'          => 'Product Details',
+    'SHOP_MODULE_ivoba_json_ld_RatingAuthorName'       => 'Rating Author',
+    'SHOP_MODULE_ivoba_json_ld_RatingAuthorLogo'       => 'Rating Author Logo',
+    'SHOP_MODULE_ivoba_json_ld_RatingAuthorImage'      => 'Rating Author Image',
 ];
