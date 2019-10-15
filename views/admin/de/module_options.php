@@ -30,6 +30,7 @@ $aLang = [
     'SHOP_MODULE_ivoba_json_ld_EnableMarketingDetails' => 'Marketing Details',
     'SHOP_MODULE_ivoba_json_ld_EnableSearch'           => 'SiteLinks Searchbox',
     'SHOP_MODULE_ivoba_json_ld_EnableBreadCrumbs'      => 'BreadCrumbs',
+    'SHOP_MODULE_ivoba_json_ld_EnableProduct'          => 'Produkt',
     'SHOP_MODULE_ivoba_json_ld_EnableLists'            => 'Lists',
     'SHOP_MODULE_ivoba_json_ld_EnableContactDetails'   => 'Kontakt Details',
     'SHOP_MODULE_ivoba_json_ld_RatingAuthorName'       => 'Bewertungen Autor',
