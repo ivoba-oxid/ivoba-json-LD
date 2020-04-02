@@ -21,7 +21,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-$sMetadataVersion = '2';
+$sMetadataVersion = '2.0';
 $aModule          = [
     'id'          => 'ivoba_jsonld',
     'title'       => '<strong>Ivo Bathke</strong>:  <i>JSON-LD Structured Data</i>',
@@ -29,7 +29,7 @@ $aModule          = [
 <a href="https://developers.google.com/search/docs/guides/intro-structured-data
 " target="_blank""">https://developers.google.com/search/docs/guides/intro-structured-data</a>',
     'thumbnail'   => 'ivoba-oxid.png',
-    'version'     => '2.2.1',
+    'version'     => '2.2.3',
     'author'      => 'Ivo Bathke',
     'email'       => 'ivo.bathke@gmail.com',
     'url'         => 'https://oxid.ivo-bathke.name#json-ld',
