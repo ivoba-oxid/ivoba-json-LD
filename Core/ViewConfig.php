@@ -153,10 +153,9 @@ class ViewConfig extends ViewConfig_parent
             $items = [];
             foreach ($breadCrumbs as $key => $breadCrumb) {
                 $items[] = [
-                    '@type'       => 'ListItem',
-                    'description' => 'Breadcrumb',
-                    'position'    => $key + 1,
-                    'item'        => [
+                    '@type'    => 'ListItem',
+                    'position' => $key + 1,
+                    'item'     => [
                         '@id'  => $breadCrumb['link'],
                         'name' => $breadCrumb['title'],
                     ],
@@ -165,6 +164,7 @@ class ViewConfig extends ViewConfig_parent
             $json = [
                 '@context'        => 'http://schema.org',
                 '@type'           => 'BreadcrumbList',
+                'name'            => 'Breadcrumb',
                 'itemListElement' => $items,
             ];
         }
