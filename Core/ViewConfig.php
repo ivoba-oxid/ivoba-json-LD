@@ -153,9 +153,10 @@ class ViewConfig extends ViewConfig_parent
             $items = [];
             foreach ($breadCrumbs as $key => $breadCrumb) {
                 $items[] = [
-                    '@type'    => 'ListItem',
-                    'position' => $key + 1,
-                    'item'     => [
+                    '@type'       => 'ListItem',
+                    'description' => 'Breadcrumb',
+                    'position'    => $key + 1,
+                    'item'        => [
                         '@id'  => $breadCrumb['link'],
                         'name' => $breadCrumb['title'],
                     ],
@@ -258,7 +259,7 @@ class ViewConfig extends ViewConfig_parent
             if ($jsonProduct) {
                 $json = array_merge([
                     '@context' => 'http://schema.org',
-                    '@type'    => 'Product'
+                    '@type'    => 'Product',
                 ], $jsonProduct);
             }
         }

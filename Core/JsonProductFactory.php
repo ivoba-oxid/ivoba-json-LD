@@ -171,7 +171,10 @@ class JsonProductFactory
                     '@id'           => 'reviewName_'.$i,
                     'name'          => $review->oxreviews__oxtext->value,
                     'description'   => $review->oxreviews__oxtext->value,
-                    'author'        => ($review->oxuser__oxfname->value ?: 'Anonym'),
+                    'author'        => [
+                        'name' => ($review->oxuser__oxfname->value ?: 'Anonym'),
+                        '@type' => 'Person'
+                    ],
                     'datePublished' => $date->format('Y-m-d'),
                     'itemReviewed'  => trim($product->oxarticles__oxtitle->value.' '.$product->oxarticles__oxvarselect->value),
                     'reviewRating'  => [
