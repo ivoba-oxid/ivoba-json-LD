@@ -77,7 +77,11 @@ class JsonProductFactory
             //todo make showVariants configurable
             foreach ($product->getFullVariants($blRemoveNotOrderables = true) as $variant) {
                 $variantOffer                = $this->makeOffer($variant);
-                $variantOffer['itemOffered'] = $this->makeProduct($variant, ['@type' => 'Product']);
+                $itemOffered                 = $this->makeProduct($variant, ['@type' => 'Product']);
+                $itemOffered['offers']       = [
+                    $variantOffer,
+                ];
+                $variantOffer['itemOffered'] = $itemOffered;
                 $offer['offers'][]           = $variantOffer;
             }
         }
@@ -164,16 +168,18 @@ class JsonProductFactory
             $json['review'] = [];
             $i              = 1;
             foreach ($reviews as $review) {
-                $date             = \DateTime::createFromFormat('d.m.Y H:i:s',
-                    $review->oxreviews__oxcreate->value); //todo format from shop settings
+                $date             = \DateTime::createFromFormat(
+                    'd.m.Y H:i:s',
+                    $review->oxreviews__oxcreate->value
+                ); //todo format from shop settings
                 $json['review'][] = [
                     '@type'         => 'Review',
                     '@id'           => 'reviewName_'.$i,
                     'name'          => $review->oxreviews__oxtext->value,
                     'description'   => $review->oxreviews__oxtext->value,
                     'author'        => [
-                        'name' => ($review->oxuser__oxfname->value ?: 'Anonym'),
-                        '@type' => 'Person'
+                        'name'  => ($review->oxuser__oxfname->value ?: 'Anonym'),
+                        '@type' => 'Person',
                     ],
                     'datePublished' => $date->format('Y-m-d'),
                     'itemReviewed'  => trim($product->oxarticles__oxtitle->value.' '.$product->oxarticles__oxvarselect->value),
