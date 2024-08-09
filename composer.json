@@ -9,7 +9,7 @@
   ],
   "require": {
     "php": ">=7",
-    "oxid-esales/oxideshop-ce": "^v6.0"
+    "oxid-esales/oxideshop-ce": "^v7"
   },
   "extra": {
     "oxideshop": {
